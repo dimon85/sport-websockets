@@ -105,13 +105,13 @@ export const securityMiddleware = (req, res, next) => {
 export function shouldAllowWebSocket(req) {
   const userAgent = req?.headers?.["user-agent"] || "";
   if (!isAllowedBot(userAgent)) {
-    return { allowed: false, reason: "Forbidden" };
+    return { allowed: false, reason: "HTTP/1.1 403 Forbidden\r\n\r\n" };
   }
 
   const now = Date.now();
   const ip = req?.socket?.remoteAddress || req?.connection?.remoteAddress || "unknown";
   if (isWebSocketRateLimited(ip, now)) {
-    return { allowed: false, reason: "Rate limit exceeded" };
+    return { allowed: false, reason: "HTTP/1.1 429 Too many requests\r\n\r\n" };
   }
 
   return { allowed: true };
