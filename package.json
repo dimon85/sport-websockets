@@ -8,14 +8,22 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.1",
     "express": "^4.19.2",
+    "pg": "^8.13.1",
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@types/pg": "^8.16.0",
     "@types/node": "^25.1.0",
-    "@types/ws": "^8.18.1"
+    "@types/ws": "^8.18.1",
+    "drizzle-kit": "^0.27.2"
   }
 }
