@@ -1,4 +1,5 @@
 import { WebSocket, WebSocketServer } from "ws";
+import { shouldAllowWebSocket } from "../middlewares/index.js";
 function sendJson(socket, payload) {
   if (socket.readyState !== WebSocket.OPEN) {
     console.warn("WebSocket is not open. Ready state:", socket.readyState);
@@ -23,7 +24,14 @@ export function attachWebSocketServer(server) {
     maxPayload: 1 * 1024 * 1024, // 1 MB
   });
 
-  wss.on("connection", (socket) => {
+  wss.on("connection", async (socket, req) => {
+    const { allowed, reason } = shouldAllowWebSocket(req);
+    if (!allowed) {
+      socket.close(1008, reason || "Policy Violation");
+      return;
+    }
+
+
     socket.isAllive = true;
     socket.on("pong", () => {
       socket.isAllive = true;
