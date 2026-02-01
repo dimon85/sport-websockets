@@ -24,9 +24,30 @@ export function attachWebSocketServer(server) {
   });
 
   wss.on("connection", (socket) => {
+    socket.isAllive = true;
+    socket.on("pong", () => {
+      socket.isAllive = true;
+    });
+
     sendJson(socket, { type: "Welcome" });
 
     socket.on("error", console.error);
+  });
+
+  const interval = setInterval(() => {
+    wss.clients.forEach((socket) => {
+      if (socket.isAllive === false) {
+        console.log("Terminating unresponsive client");
+        return socket.terminate();
+      }
+
+      socket.isAllive = false;
+      socket.ping();
+    });
+  }, 30000);
+  
+  wss.on("close", () => {
+    clearInterval(interval);
   });
 
   function broadcastMatchCreated(match) {
