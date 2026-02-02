@@ -141,9 +141,9 @@ export const securityMiddleware = (req, res, next) => {
 
 export const shouldAllowWebSocket = (req) => {
   const userAgent = getUserAgent(req);
-  if (isBlockedBot(userAgent)) {
-    return { allowed: false, reason: "Forbidden" };
-  }
+  // if (isBlockedBot(userAgent)) {
+  //   return { allowed: false, reason: "Forbidden" };
+  // }
 
   const key = getWsRateLimitKey(req);
   if (isWebSocketRateLimited(key)) {
