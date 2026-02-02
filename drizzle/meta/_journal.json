@@ -8,6 +8,13 @@
       "when": 1769941599971,
       "tag": "0000_lame_tarantula",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1769966864940,
+      "tag": "0001_sturdy_ezekiel_stane",
+      "breakpoints": true
     }
   ]
 }
